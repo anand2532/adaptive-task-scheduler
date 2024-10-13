@@ -15,7 +15,7 @@ int main(void) {
 
     // Create sensor tasks
     for (int i = 0; i < NUM_SENSORS; i++) {
-        xTaskCreate(sensorTask, "SensorTask", configMINIMAL_STACK_SIZE, (void*)i, tskIDLE_PRIORITY, NULL);
+        xTaskCreate(sensorTask, "SensorTask", configMINIMAL_STACK_SIZE, (void*)(intptr_t)i, tskIDLE_PRIORITY, NULL);
     }
 
     // Create data fusion task
