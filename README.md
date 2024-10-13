@@ -11,7 +11,6 @@
 8. [Project Components](#project-components)
 9. [Recent Changes and Troubleshooting](#recent-changes-and-troubleshooting)
 10. [Contributing](#contributing)
-11. [License](#license)
 
 ## Introduction
 
