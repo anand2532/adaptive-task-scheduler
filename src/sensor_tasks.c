@@ -6,7 +6,7 @@
 static QueueHandle_t sensorQueues[NUM_SENSORS];
 
 void sensorTask(void *pvParameters) {
-    int sensorId = (int)pvParameters;
+    int sensorId = (int)(intptr_t)pvParameters;
     TickType_t xLastWakeTime;
     const TickType_t xFrequency = pdMS_TO_TICKS(SENSOR_PERIOD_MS);
 
