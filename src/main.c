@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include "FreeRTOS.h"
 #include "task.h"
-#include "queue.h"
-#include "semphr.h"
 #include "scheduler.h"
 #include "sensor_tasks.h"
 #include "data_fusion.h"

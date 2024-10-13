@@ -1,6 +1,7 @@
 #include "sensor_tasks.h"
 #include "scheduler.h"
 #include "config.h"
+#include <stdlib.h>
 
 static QueueHandle_t sensorQueues[NUM_SENSORS];
 
