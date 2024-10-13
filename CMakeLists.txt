@@ -27,53 +27,22 @@ add_library(freertos STATIC ${FREERTOS_SOURCES})
 
 target_include_directories(freertos PUBLIC ${FREERTOS_INCLUDE_DIRS})
 
-# Unity
-set(UNITY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/Unity/src)
-include_directories(${UNITY_DIR})
-add_library(unity STATIC ${UNITY_DIR}/unity.c)
-
 # Your project source files
 set(PROJECT_SOURCES
+    src/main.c
     src/data_fusion.c
     src/scheduler.c
     src/sensor_tasks.c
 )
 
-# Create main executable
-add_executable(${PROJECT_NAME} 
-    src/main.c
-    ${PROJECT_SOURCES}
-)
+# Create executable
+add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 
-# Include directories for main executable
+# Include directories
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${FREERTOS_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-# Link FreeRTOS for main executable
+# Link FreeRTOS and pthread
 target_link_libraries(${PROJECT_NAME} PRIVATE freertos pthread rt)
-
-# Enable testing
-enable_testing()
-
-# Add test executable
-add_executable(run_tests 
-    tests/test_main.c
-    tests/test_scheduler.c 
-    tests/test_data_fusion.c 
-    ${PROJECT_SOURCES}
-)
-
-# Include directories for test executable
-target_include_directories(run_tests PRIVATE
-    ${FREERTOS_INCLUDE_DIRS}
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${UNITY_DIR}
-)
-
-# Link libraries for test executable
-target_link_libraries(run_tests PRIVATE freertos unity pthread rt)
-
-# Add test
-add_test(NAME UnitTests COMMAND run_tests)

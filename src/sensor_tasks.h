@@ -2,13 +2,12 @@
 #define SENSOR_TASKS_H
 
 #include "FreeRTOS.h"
-#include "task.h"
 #include "queue.h"
 
-// Sensor task function
 void sensorTask(void *pvParameters);
-
-// Get the queue handle for a specific sensor
 QueueHandle_t getSensorQueue(int sensorId);
+float getLatestSensorData(int sensorId);
+void createSensorQueues();
+void initializeSensorReceiver();
 
 #endif // SENSOR_TASKS_H
