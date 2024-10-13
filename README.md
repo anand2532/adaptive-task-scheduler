@@ -93,7 +93,7 @@ To run the main program:
 ./AdaptiveTaskScheduler
 ```
 
-## Testing
+<!-- ## Testing
 
 To run the tests:
 ```
@@ -136,7 +136,7 @@ Make it executable and run:
 ```
 chmod +x run_tests.sh
 ./run_tests.sh
-```
+``` -->
 
 ## Project Components
 
