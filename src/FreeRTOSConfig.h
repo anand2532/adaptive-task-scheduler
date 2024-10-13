@@ -49,6 +49,10 @@
 #define configTIMER_QUEUE_LENGTH                10
 #define configTIMER_TASK_STACK_DEPTH            configMINIMAL_STACK_SIZE
 
+/* POSIX-specific configurations */
+#define configUSE_16_BIT_TICKS                  0
+#define configMAX_SYSCALL_INTERRUPT_PRIORITY    1
+
 /* Define to trap errors during development. */
 #define configASSERT( x ) if( ( x ) == 0 ) vAssertCalled( __FILE__, __LINE__ )
 
@@ -70,7 +74,5 @@
 #define INCLUDE_xTaskAbortDelay                 0
 #define INCLUDE_xTaskGetHandle                  0
 #define INCLUDE_xTaskResumeFromISR              1
-
-/* A header file that defines trace macro can be included here. */
 
 #endif /* FREERTOS_CONFIG_H */

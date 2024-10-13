@@ -1,6 +1,3 @@
-# adaptive-task-scheduler
- Adaptive Task Scheduler for Multi-Sensor Data Fusion
-
 # Adaptive Task Scheduler for Multi-Sensor Data Fusion
 
 ## Table of Contents
