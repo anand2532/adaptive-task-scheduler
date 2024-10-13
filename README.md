@@ -55,7 +55,7 @@ adaptive-task-scheduler/
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/adaptive-task-scheduler.git
+   git clone https://github.com/anand2532/adaptive-task-scheduler.git
    cd adaptive-task-scheduler
    ```
 
