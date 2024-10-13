@@ -166,22 +166,100 @@ chmod +x run_tests.sh
 
 ## Recent Changes and Troubleshooting
 
+### Recent Changes
+
 1. **CMakeLists.txt Updates**:
-   - Added FreeRTOS as a static library
-   - Included Unity for testing
-   - Separated main executable and test executable builds
+   * Added FreeRTOS as a static library
+   * Included Unity for testing (later removed)
+   * Separated main executable and test executable builds
+   * Added pthread and rt library linking for POSIX support
 
 2. **Test Files Restructuring**:
-   - Removed duplicate main(), setUp(), and tearDown() functions
-   - Created a separate test_main.c to run all tests
+   * Removed duplicate main(), setUp(), and tearDown() functions
+   * Created a separate test_main.c to run all tests (later removed)
+   * Implemented Python-based sensor simulator for more realistic testing
 
 3. **Build Process Fixes**:
-   - Resolved issues with multiple definitions of main()
-   - Fixed linking problems with FreeRTOS and Unity libraries
+   * Resolved issues with multiple definitions of main()
+   * Fixed linking problems with FreeRTOS libraries
+   * Ensured correct inclusion of FreeRTOS headers
 
-4. **Common Issues and Solutions**:
-   - If you encounter "multiple definition of main" errors, ensure that only one file (either main.c or test_main.c) contains a main() function in each executable.
-   - If FreeRTOS functions are undefined, check that the FreeRTOS submodule is properly initialized and that CMakeLists.txt correctly includes FreeRTOS headers and links the library.
+4. **Sensor Data Reception**:
+   * Implemented POSIX thread-based sensor data receiver
+   * Added UDP socket communication for receiving simulated sensor data
+
+5. **Data Fusion Implementation**:
+   * Created a separate data fusion task that runs periodically
+   * Implemented a simple averaging algorithm for fusing sensor data
+
+6. **Adaptive Scheduling**:
+   * Added framework for adjusting task priorities based on runtime behavior
+   * Implemented getLatestSensorData() function for efficient data access
+
+7. **Configuration and Flexibility**:
+   * Added config.h for centralized project configuration
+   * Made the number of sensors and their sampling rates configurable
+
+### Troubleshooting
+
+1. **Multiple Definition of main() Error**:
+   * Issue: Compilation fails due to multiple definitions of the main() function.
+   * Solution: Ensure that only one file (main.c) contains a main() function. Remove any main() functions from test files or other source files.
+
+2. **Undefined FreeRTOS Functions**:
+   * Issue: Compiler reports undefined references to FreeRTOS functions.
+   * Solution: 
+     - Check that the FreeRTOS submodule is properly initialized: 
+       ```
+       git submodule update --init --recursive
+       ```
+     - Verify that CMakeLists.txt correctly includes FreeRTOS headers and links the library:
+       ```cmake
+       target_include_directories(${PROJECT_NAME} PRIVATE ${FREERTOS_INCLUDE_DIRS})
+       target_link_libraries(${PROJECT_NAME} PRIVATE freertos)
+       ```
+
+3. **Sensor Data Not Being Received**:
+   * Issue: The program runs but doesn't receive any sensor data.
+   * Solution: 
+     - Ensure the Python sensor simulator is running.
+     - Check that the UDP port (default 12345) is not blocked by a firewall.
+     - Verify that the IP address in the simulator matches your local machine's IP.
+
+4. **Build Fails Due to Missing pthread**:
+   * Issue: Compilation fails with errors related to pthread functions.
+   * Solution: 
+     - Install pthread development libraries. On Ubuntu/Debian:
+       ```
+       sudo apt-get install libpthread-stubs0-dev
+       ```
+     - Ensure CMakeLists.txt links against pthread:
+       ```cmake
+       target_link_libraries(${PROJECT_NAME} PRIVATE pthread)
+       ```
+
+5. **Data Fusion Task Not Running**:
+   * Issue: The data fusion task doesn't seem to be executing.
+   * Solution:
+     - Check that the task is created with sufficient stack size and appropriate priority.
+     - Verify that FUSION_INTERVAL_MS in config.h is set to a reasonable value.
+     - Add debug print statements in the data fusion task to confirm it's being called.
+
+6. **Adaptive Scheduling Not Working**:
+   * Issue: Task priorities don't seem to be adjusting as expected.
+   * Solution:
+     - Implement the adjustTaskPriority() function in scheduler.c with your desired logic.
+     - Add debug print statements to show when and how priorities are being adjusted.
+     - Ensure RUNTIME_THRESHOLD in config.h is set appropriately for your system.
+
+7. **CMake Configuration Fails**:
+   * Issue: CMake fails to configure the project.
+   * Solution:
+     - Ensure you have CMake version 3.12 or higher installed.
+     - Check that all required libraries and dependencies are installed on your system.
+     - Verify that the project structure matches what's expected in CMakeLists.txt.
+
+Remember to always check the console output for specific error messages, as they often provide valuable clues about the root cause of any issues you encounter.
 
 ## Contributing
 
