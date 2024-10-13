@@ -3,53 +3,77 @@ project(AdaptiveTaskScheduler C)
 
 set(CMAKE_C_STANDARD 11)
 
-# Set FreeRTOS port
-set(FREERTOS_PORT GCC_POSIX CACHE STRING "")
+# FreeRTOS Source Files
+set(FREERTOS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/FreeRTOS)
+set(FREERTOS_PORT_DIR ${FREERTOS_DIR}/portable/GCC/Posix)
 
-# FreeRTOS configuration
-add_library(freertos_config INTERFACE)
-target_include_directories(freertos_config INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+file(GLOB FREERTOS_SOURCES
+    ${FREERTOS_DIR}/*.c
+    ${FREERTOS_PORT_DIR}/*.c
+    ${FREERTOS_PORT_DIR}/utils/*.c
+    ${FREERTOS_DIR}/portable/MemMang/heap_3.c
+)
 
-# Include FreeRTOS
-add_subdirectory(lib/FreeRTOS)
+# FreeRTOS Include Directories
+set(FREERTOS_INCLUDE_DIRS
+    ${FREERTOS_DIR}/include
+    ${FREERTOS_PORT_DIR}
+    ${FREERTOS_PORT_DIR}/utils
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
 
-# Add project source files
-file(GLOB PROJECT_SOURCES "src/*.c")
+# Add FreeRTOS as a library
+add_library(freertos STATIC ${FREERTOS_SOURCES})
 
-# Create executable
-add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
+target_include_directories(freertos PUBLIC ${FREERTOS_INCLUDE_DIRS})
 
-# Include directories
+# Unity
+set(UNITY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/Unity/src)
+include_directories(${UNITY_DIR})
+add_library(unity STATIC ${UNITY_DIR}/unity.c)
+
+# Your project source files
+set(PROJECT_SOURCES
+    src/data_fusion.c
+    src/scheduler.c
+    src/sensor_tasks.c
+)
+
+# Create main executable
+add_executable(${PROJECT_NAME} 
+    src/main.c
+    ${PROJECT_SOURCES}
+)
+
+# Include directories for main executable
 target_include_directories(${PROJECT_NAME} PRIVATE
-    src
-    lib/FreeRTOS/include
-    lib/FreeRTOS/portable/GCC/Posix
+    ${FREERTOS_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-# Link FreeRTOS
-target_link_libraries(${PROJECT_NAME} PRIVATE freertos freertos_config)
-
-# Compiler definitions
-target_compile_definitions(${PROJECT_NAME} PRIVATE
-    FREERTOS
-    projCOVERAGE_TEST=0
-)
+# Link FreeRTOS for main executable
+target_link_libraries(${PROJECT_NAME} PRIVATE freertos pthread rt)
 
 # Enable testing
 enable_testing()
 
 # Add test executable
-add_executable(run_tests tests/test_scheduler.c tests/test_data_fusion.c ${PROJECT_SOURCES})
+add_executable(run_tests 
+    tests/test_main.c
+    tests/test_scheduler.c 
+    tests/test_data_fusion.c 
+    ${PROJECT_SOURCES}
+)
+
+# Include directories for test executable
 target_include_directories(run_tests PRIVATE
-    src
-    lib/FreeRTOS/include
-    lib/FreeRTOS/portable/GCC/Posix
+    ${FREERTOS_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${UNITY_DIR}
 )
-target_link_libraries(run_tests PRIVATE freertos freertos_config)
-target_compile_definitions(run_tests PRIVATE
-    FREERTOS
-    projCOVERAGE_TEST=0
-)
+
+# Link libraries for test executable
+target_link_libraries(run_tests PRIVATE freertos unity pthread rt)
 
 # Add test
 add_test(NAME UnitTests COMMAND run_tests)
