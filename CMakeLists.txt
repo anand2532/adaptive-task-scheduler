@@ -27,7 +27,7 @@ add_library(freertos STATIC ${FREERTOS_SOURCES})
 
 target_include_directories(freertos PUBLIC ${FREERTOS_INCLUDE_DIRS})
 
-# Your project source files
+# project source files
 set(PROJECT_SOURCES
     src/main.c
     src/data_fusion.c
