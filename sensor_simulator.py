@@ -18,7 +18,7 @@ if __name__ == "__main__":
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     # Define different intervals for each sensor
-    sensor_intervals = [0.5, 1.0, 1.5]  # Sensor 1: 0.5s, Sensor 2: 1s, Sensor 3: 1.5s
+    sensor_intervals = [0.5, 1, 1.5]  # Sensor 1: 0.5s, Sensor 2: 1s, Sensor 3: 1.5s
 
     threads = []
     for i in range(3):
