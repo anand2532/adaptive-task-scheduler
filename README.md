@@ -1,6 +1,6 @@
 # Adaptive Task Scheduler for Multi-Sensor Data Fusion
 
-## Table of Contents
+<!-- ## Table of Contents
 1. [Introduction](#introduction)
 2. [Project Structure](#project-structure)
 3. [Dependencies](#dependencies)
@@ -10,7 +10,7 @@
 7. [Testing](#testing)
 8. [Project Components](#project-components)
 9. [Recent Changes and Troubleshooting](#recent-changes-and-troubleshooting)
-10. [Contributing](#contributing)
+10. [Contributing](#contributing) -->
 
 ## Introduction
 
