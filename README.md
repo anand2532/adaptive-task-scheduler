@@ -16,7 +16,7 @@
 
 This project implements an adaptive task scheduler for a multi-sensor system, optimizing CPU usage and power consumption based on sensor priorities and data rates. It uses FreeRTOS to manage tasks, implement inter-task communication, and showcase adaptive scheduling based on runtime task behavior.
 
-## Project Structure
+<!-- ## Project Structure
 
 ```
 adaptive-task-scheduler/
@@ -42,7 +42,7 @@ adaptive-task-scheduler/
 │   └── test_data_fusion.c
 └── cmake/
     └── arm-none-eabi-toolchain.cmake
-```
+``` -->
 
 ## Dependencies
 
