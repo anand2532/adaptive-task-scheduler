@@ -291,3 +291,8 @@ gst-launch-1.0 nvarguscamerasrc ! 'video/x-raw(memory:NVMM), width=1280, height=
 ```
 
 * i have a imx477 camera and  i have connected it to my jetson nano i have also connected the jetson nano to the monitor and i want to stream video, give me full step, i can use vlc to see the video, use  udp
+
+
+```
+https://rustpad.io/#7tWY41
+```
