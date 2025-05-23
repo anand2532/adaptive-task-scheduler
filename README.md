@@ -338,3 +338,6 @@ cv2.destroyAllWindows()
 ```
 v4l2-ctl --device=/dev/video0 --stream-mmap --set-fmt-video=width=1280,height=720,pixelformat=UYVY
 ```
+```
+v4l2-ctl --device=/dev/video0 --list-formats-ext
+```
