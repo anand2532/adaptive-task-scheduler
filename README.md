@@ -342,14 +342,43 @@ v4l2-ctl --device=/dev/video0 --stream-mmap --set-fmt-video=width=1280,height=72
 v4l2-ctl --device=/dev/video0 --list-formats-ext
 ```
 
-```
+
+
+``` worked
 gst-launch-1.0 nvarguscamerasrc ! \
 'video/x-raw(memory:NVMM), width=1920, height=1080, format=NV12, framerate=30/1' ! \
 nvvidconv ! nvegltransform ! nveglglessink
 ```
 
-```
+```worked
 gst-launch-1.0 nvarguscamerasrc ! \
 'video/x-raw(memory:NVMM), width=1920, height=1080, format=NV12, framerate=30/1' ! \
 nvvidconv ! videoconvert ! autovideosink
+```
+
+```
+gst-launch-1.0 -v nvarguscamerasrc ! \
+'video/x-raw(memory:NVMM), width=1920, height=1080, framerate=30/1, format=NV12' ! \
+nvvidconv ! \
+nvv4l2h264enc maxperf-enable=1 bitrate=4000000 ! \
+h264parse ! rtph264pay config-interval=1 pt=96 ! \
+udpsink host=<CLIENT_IP> port=5000
+```
+
+```
+gst-launch-1.0 -v nvarguscamerasrc ! \
+'video/x-raw(memory:NVMM), width=1920, height=1080, framerate=30/1, format=NV12' ! \
+nvvidconv ! \
+nvv4l2h264enc maxperf-enable=1 bitrate=4000000 ! \
+h264parse ! rtph264pay config-interval=1 pt=96 ! \
+udpsink host=127.0.0.1 port=5000
+```
+
+
+```
+gst-launch-1.0 -v nvarguscamerasrc ! \
+'video/x-raw(memory:NVMM), width=1920, height=1080, framerate=30/1, format=NV12' ! \
+nvvidconv ! videoconvert ! x264enc bitrate=4000 speed-preset=ultrafast tune=zerolatency ! \
+h264parse ! rtph264pay config-interval=1 pt=96 ! \
+udpsink host=127.0.0.1 port=5000
 ```
