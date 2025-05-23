@@ -285,3 +285,7 @@ gst-launch-1.0 nvarguscamerasrc ! 'video/x-raw(memory:NVMM), width=1920, height=
 nvvidconv ! 'video/x-raw, format=I420' ! x264enc tune=zerolatency bitrate=4000 speed-preset=superfast ! \
 rtph264pay config-interval=1 pt=96 ! udpsink host=127.0.0.1 port=5000
 ```
+
+```
+gst-launch-1.0 nvarguscamerasrc ! 'video/x-raw(memory:NVMM), width=1280, height=720, format=NV12, framerate=30/1' ! nvvidconv ! nvoverlaysink -e
+```
