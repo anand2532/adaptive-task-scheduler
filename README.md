@@ -290,4 +290,4 @@ rtph264pay config-interval=1 pt=96 ! udpsink host=127.0.0.1 port=5000
 gst-launch-1.0 nvarguscamerasrc ! 'video/x-raw(memory:NVMM), width=1280, height=720, format=NV12, framerate=30/1' ! nvvidconv ! nvoverlaysink -e
 ```
 
-* i have a imx477 camera and  i have connected it to my jetson nano i have also connected the jetson nano to the monitor and i want to stream video, give me full step
+* i have a imx477 camera and  i have connected it to my jetson nano i have also connected the jetson nano to the monitor and i want to stream video, give me full step, i can use vlc to see the video, use  udp
