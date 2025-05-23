@@ -296,3 +296,8 @@ gst-launch-1.0 nvarguscamerasrc ! 'video/x-raw(memory:NVMM), width=1280, height=
 ```
 https://rustpad.io/#7tWY41
 ```
+
+```
+gst-launch-1.0 udpsrc port=5000 caps="application/x-rtp, media=video, encoding-name=H264" ! \
+rtph264depay ! avdec_h264 ! autovideosink
+```
