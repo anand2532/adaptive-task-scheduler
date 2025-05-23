@@ -312,3 +312,25 @@ gst-launch-1.0 nvarguscamerasrc ! \
 'video/x-raw(memory:NVMM), width=1280, height=720, framerate=30/1' ! \
 nvvidconv ! videoconvert ! autovideosink
 ```
+
+
+```python
+import cv2
+
+cap = cv2.VideoCapture("nvarguscamerasrc ! video/x-raw(memory:NVMM), width=1280, height=720, framerate=30/1 ! nvvidconv ! video/x-raw, format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink", cv2.CAP_GSTREAMER)
+
+if not cap.isOpened():
+    print("Camera could not be opened.")
+    exit()
+
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        break
+    cv2.imshow("IMX477 Camera", frame)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
+```
