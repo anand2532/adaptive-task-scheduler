@@ -280,3 +280,8 @@ https://dev-demo-editor.perceiv.io/#/paused-reality/view-pr/67cc141c18defe0b1beb
 https://dev-demo-editor.perceiv.io/#/paused-reality/view-pr/67d13f1e0a4d960b1b79712f?az=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNDllZjMwNDYtZDljMS00NTBiLWFmMGUtNmNiZGM3MTE1MGFlIiwiaWF0IjoxNzM5NTM0ODU3fQ.oqUaDm8K3Fbm65Vhlsh5UcOiE05Sohdyfs2nwKX3Wr8
 ```
 
+```
+gst-launch-1.0 nvarguscamerasrc ! 'video/x-raw(memory:NVMM), width=1920, height=1080, format=NV12, framerate=30/1' ! \
+nvvidconv ! 'video/x-raw, format=I420' ! x264enc tune=zerolatency bitrate=4000 speed-preset=superfast ! \
+rtph264pay config-interval=1 pt=96 ! udpsink host=127.0.0.1 port=5000
+```
